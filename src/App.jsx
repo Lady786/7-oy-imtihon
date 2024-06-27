@@ -5,16 +5,18 @@ import Home from './pages/Home'
 import Products from './pages/products/Products'
 import Category from './pages/categories/Category'
 import Login from './pages/login/Login'
+import Register from './pages/Register'
 
 const App = () => {
   return <BrowserRouter>
   <Routes  >
   <Route path="/" element={<GeneralLayout/>}>
  <Route index element={<Home/>}/>
- <Route path="products" element={<Products/>}/>
- <Route path='category' element={<Category/>}/>
+ <Route path="/products" element={<Products/>}/>
+ <Route path='/category' element={<Category/>}/>
   </Route>
-  <Route path='login' element={<Login/>}/>
+  <Route path='/login' element={<Login/>}/>
+  <Route path='/register' element={<Register/>}/>
    
   </Routes>
   </BrowserRouter>
