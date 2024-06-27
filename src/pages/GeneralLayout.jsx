@@ -18,24 +18,34 @@ function getItem(label, key, icon, children) {
   };
 }
 const items = [
-  getItem(
+  // getItem(
     
-    <NavLink to={"/login"} >
-      Login
-    </NavLink>, '1', <PieChartOutlined />,  ),
+  //   <NavLink to={"/login"} >
+  //     Login
+  //   </NavLink>, '1', <PieChartOutlined />,  ),
 
-  getItem(
-    <NavLink to={"/category"}>
-      Category
-    </NavLink>
-    , '2', <DesktopOutlined />),
+getItem(
+  <NavLink to={"/register"}>
+ Register
+</NavLink>
+    , '9',  <TeamOutlined />, ),
  
-  
+    getItem(
+      <NavLink to={"/user"}>
+     Create User
+     </NavLink>,
+      'User', <UserOutlined />, ),
   getItem(
     <NavLink to={"/products"}>
    Products
   </NavLink>
       , '9', <FileOutlined />, ),
+      getItem(
+        <NavLink to={"/category"}>
+          Category
+        </NavLink>
+        , '2', <DesktopOutlined />),
+  
 ];
 const GeneralLayout = () => {
   const [collapsed, setCollapsed] = useState(false);

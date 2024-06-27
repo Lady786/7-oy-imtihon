@@ -1,4 +1,5 @@
 import axios from "axios";
+const url = 'https://ecommerce-backend-fawn-eight.vercel.app/api';
 
 export async function createProduct(data){
     try {
@@ -66,4 +67,24 @@ export async function deleteProduct(productId){
    } catch (error) {
     console.log(error);
    } 
+}
+
+export async function loginUser(user){
+    try {
+     const response = await axios.post(`${url}/auth`,user)  
+     return response.data
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+export async function createUser(user){
+try {
+    const response = await axios.post(`${url}/users`,user,{
+        headers: localStorage.getItem("token"),
+    });
+    return response.data
+} catch (err) {
+    console.log(err);
+}
 }

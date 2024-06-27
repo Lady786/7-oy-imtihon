@@ -1,71 +1,72 @@
-import axios from "axios";
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-
+import React from 'react'
+import { Input } from 'antd';
+import { useForm, Controller } from "react-hook-form";
+import { loginUser } from '../../api';
+import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
-  const navigate = useNavigate();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const handleSubmit = async () => {
-    try {
-      const response = await axios.post(`https://ecommerce-backend-fawn-eight.vercel.app/api/auth`, {
-        email: email,
-        password: password,
-      });
-      if (response.data) {
-        localStorage.setItem("token", response.data);
-        console.log(response.data);
-        navigate("/products");
-      }
-    } catch (error) {
-      alert("Foydalanuvchi ma'lumotlari hato!");
-      console.log("xatolik yuz berdi");
-    }
-  };
-
+    const {
+      handleSubmit,
+        control, 
+        formState:{errors},
+        reset
+    }= useForm();
+   
+    const navigate = useNavigate();
+  
+    const onSubmit = async(data)=>{
+       const token = await loginUser(data)
+       console.log(token);
+       if(token){
+        localStorage.setItem("token", token);
+        reset();
+       };
+       navigate("/products")
+    };
   return (
-    <div className="w-screen h-screen bg-blue-200 flex items-center justify-center">
-      <div className="w-[400px] h-[300px] border bg-white rounded-xl flex flex-col items-center justify-around">
-        <p className="font-bold text-[28px]">Login</p>
-        <div>
-          <label htmlFor="email">Email</label>
-          <input
-            className="pl-[5px] border ml-[10px]"
-            id="email"
-            type="text"
-            name=""
-            value={email}
-            onChange={(e) => {
-              setEmail(e.target.value);
-            }}
-            placeholder=" email..."
-          />{" "}
-          <br />
-        </div>
-        <div>
-          <label htmlFor="password">Password</label>
-          <input
-            className="pl-[5px] border ml-[10px]"
-            id="password"
-            type="text"
-            value={password}
-            onChange={(e) => {
-              setPassword(e.target.value);
-            }}
-            name=""
-            placeholder=" password..."
-          />
-        </div>
-        <button
-          onClick={handleSubmit}
-          className="border w-[100px] bg-blue-200 text-white rounded-lg "
-        >
-          Submit
-        </button>
-      </div>
-    </div>
-  );
-};
+    <div >
+        <div className=' bg-blue-300 w-[300px] h-[300px] border m-auto mt-[100px] rounded-2xl'>
+      <h1 className='font-bold  text-[20px] text-center mt-[10px]'>Login</h1>
+ <form className='w-[250px] h-[150px]  m-auto flex flex-col justify-around mt-[10px] ' onSubmit={handleSubmit(onSubmit)} >
+            <div>
+                 <Controller
+           name="email"
+           control={control}
+           rules={{required: "Email must not be empty"}}
+           render={({field}) => (
+               <Input placeholder="Email..."
+               {...field}
+               status={errors.email ? "error" : ""}/>
+           )}
+           />
+           {errors.email && <p>Email must not be empty</p>}
+            </div>
 
-export default Login;
+            <div>
+             <Controller
+           name="password"
+          
+           control={control}
+           rules={{required: "Password must not be empty"}}
+           render={({field})=>(
+            
+               <Input placeholder="Password..."
+               {...field} status={errors.password ? "error" : ""}  />
+           )}
+           />
+            {errors.password && <p>Password must not be empty</p>}
+            </div>
+          
+           
+          
+          
+     
+        <button className='rounded bg-blue-500 text-white w-[90px]'  type="submit">Log in</button>
+        </form>
+        </div>
+       
+    </div>
+  )
+}
+
+export default Login
